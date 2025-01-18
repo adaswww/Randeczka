@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="Randeczka.css">
+    <title>Randeczka</title>
+</head>
+<body style="background-color:#edc5e3;">
+    <div class="container">
+        <h1>Gdzie idziemy?</h1> 
+        <form action="Randeczka4.html" method="post">
+            <div class="form-container">
+                <label class="option">
+                    <center><h2>Jedzonko</h2></center>
+                    <input type="radio" name="choice" value="Jedzonko" required style="display: none;">
+                    <img src="jedzonko.png" alt="Jedzonko">
+                </label>
+                <label class="option">
+                    <center><h2>Kino</h2></center>
+                    <input type="radio" name="choice" value="Kino" required style="display: none;">
+                    <img src="kino.png" alt="Kino">
+                </label>
+                <label class="option">
+                    <center><h2>Kawa i ciasto</h2></center>
+                    <input type="radio" name="choice" value="Kawa i ciasto" required style="display: none;">
+                    <img src="kawa.png" alt="Kawa i ciasto">
+                </label>
+                <label class="option">
+                    <center><h2>Piknik</h2></center>
+                    <input type="radio" name="choice" value="Piknik"  required style="display: none;">
+                    <img src="piknik.png" alt="Piknik">
+                </label>
+                <label class="option">
+                    <center><h2>Spacerek</h2></center>
+                    <input type="radio" name="choice" value="Spacerek"  required style="display: none;">
+                    <img src="spacer.png" alt="Spacerek">
+                </label>
+            </div>
+            <button type="button" onclick="sendChoiceToDiscord()">WYBIERAM !!!</button>
+        </form>
+      </div>
+
+    <script>
+        function sendChoiceToDiscord() {
+            const selectedOption = document.querySelector('input[name="choice"]:checked').value;
+
+            const data = {
+                username: "Randeczka Bot",
+                content: `Miejsce randeczki: ${selectedOption}`
+            };
+
+            fetch('https://discord.com/api/webhooks/1330108506250154044/RmsPxjzFOqD0DaCW2o0xmoaQrQeXwPWiHAHQBXgrRbn37FpolguuNP5_w54z9MSaI_L8', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Błąd w odpowiedzi z serwera');
+                }
+                // Sprawdzamy, czy odpowiedź zawiera dane JSON
+                return response.text(); // Zmieniamy na text, ponieważ odpowiedź może być pusta lub innego formatu
+            })
+            .then(text => {
+                console.log('Odpowiedź serwera:', text); // Logowanie surowej odpowiedzi
+                // Dopiero po sukcesie, przechodzimy do nowej strony
+                setTimeout(() => {
+                    window.location.href = "Randeczka4.html";
+                }, 500); // Opóźnienie 500ms
+            })
+            .catch((error) => {
+                console.error('Błąd:', error);
+            });
+        }
+    </script>
+        }
+    </script>
+</body>
+</html>

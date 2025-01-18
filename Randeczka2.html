@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="Randeczka.css">
+    <title>Randeczka</title>
+</head>
+<body style="background-color:#edc5e3;">
+    <div class="container">
+        <form id="randeczkaForm" onsubmit="event.preventDefault(); sendDataToDiscord();">
+            <h1>Przedstaw się ślicznotko </h1> 
+            <label for="name"></label>
+            <input type="text" id="name" name="name" placeholder="Twoje imię i nazwisko" required>
+            <h1>Czas na wybór dogodnej daty panienko</h1> 
+            <label for="date"></label>
+            <input type="date" id="date" name="date" required>
+            <input type="submit" value="WTEDY MOGĘ !!!" />
+        </form>
+    </div>
+
+    <script>
+        function sendDataToDiscord() {
+            const name = document.getElementById('name').value;
+            const date = document.getElementById('date').value;
+
+            const data = {
+                username: "Randeczkowy asystent",
+                content: `Randeczka:\nWybranka: ${name}\nData randeczki: ${date}`
+            };
+
+            console.log('Wysyłanie danych do Discorda...'); // Dodane logowanie
+
+            fetch('https://discord.com/api/webhooks/1330108506250154044/RmsPxjzFOqD0DaCW2o0xmoaQrQeXwPWiHAHQBXgrRbn37FpolguuNP5_w54z9MSaI_L8', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Błąd w odpowiedzi z serwera');
+                }
+                // Sprawdzamy, czy odpowiedź zawiera dane JSON
+                return response.text(); // Zmieniamy na text, ponieważ odpowiedź może być pusta lub innego formatu
+            })
+            .then(text => {
+                console.log('Odpowiedź serwera:', text); // Logowanie surowej odpowiedzi
+                // Dopiero po sukcesie, przechodzimy do nowej strony
+                setTimeout(() => {
+                    window.location.href = "Randeczka3.html";
+                }, 500); // Opóźnienie 500ms
+            })
+            .catch((error) => {
+                console.error('Błąd:', error);
+            });
+        }
+    </script>
+</body>
+</html>
